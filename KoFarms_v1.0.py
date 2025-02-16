@@ -1,4 +1,4 @@
-import eartheingine as ee
+import eartheingine-api as ee
 # Ensure authentication
 ee.Authenticate()
 ##try:
