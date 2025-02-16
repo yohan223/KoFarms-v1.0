@@ -1,0 +1,39 @@
+import ee
+import pandas as pd
+import streamlit as st
+import geemap.foliumap as geemap  # Import geemap for interactive mapping
+
+# Ensure authentication
+try:
+    ee.Initialize()
+except Exception as e:
+    ee.Authenticate()
+    ee.Initialize(project='ee-johnslick1999')
+
+# Create a map instance
+Map = geemap.Map()
+
+# Display the map in Streamlit
+Map_streamlit = st.components.v1.html(
+    Map._repr_html_(), width=700, height=500
+)
+
+# Get ROI from user interaction
+roi = Map.draw_last_feature
+
+# Check if ROI is drawn
+if roi:
+    # Get start and end dates from user input
+    start_date = st.date_input("Start Date", value=pd.to_datetime("2023-01-01"))
+    end_date = st.date_input("End Date", value=pd.to_datetime("2023-12-31"))
+
+    # Load datasets
+    smap = ee.ImageCollection("NASA_USDA/HSL/SMAP_soil_moisture")
+    soil_temp = ee.ImageCollection("OpenLandMap/SOL/SOILTEMP")
+    soil_texture = ee.ImageCollection("OpenLandMap/SOL/SOILTEXTURE")
+    ndvi = ee.ImageCollection("COPERNICUS/S2").filterDate(str(start_date), str(end_date)).filterBounds(roi.geometry())
+
+    # ... (rest of your code, using roi.geometry() for calculations) ...
+
+else:
+    st.write("Please draw a region of interest (ROI) on the map.")
