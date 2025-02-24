@@ -1,3 +1,4 @@
+import os
 import streamlit as st
 import geopandas as gpd
 import folium
@@ -7,15 +8,36 @@ import numpy as np
 import rasterio
 from streamlit_folium import st_folium
 from sklearn.ensemble import RandomForestClassifier
+import ee
+import json
+import streamlit as st
+
+# Load Earth Engine credentials from Streamlit secrets
+service_account_json = st.secrets["EARTHENGINE_TOKEN"]
+
+# Set the GOOGLE_APPLICATION_CREDENTIALS environment variable
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = service_account_json
+
+# Initialize Earth Engine
+try:
+    ee.Initialize()
+    st.success("✅ Earth Engine initialized successfully!")
+except Exception as e:
+    st.error(f"❌ Failed to initialize Earth Engine: {e}")
+
+# Initialize Earth Engine
+#credentials = ee.ServiceAccountCredentials.from_json_keyfile_dict(json.loads(service_account_json))
+#ee.Initialize(credentials)
 
 # Authenticate and Initialize Google Earth Engine
-try:
-    ee.Initialize(project='ee-johnslick1999')
-except Exception as e:
-    st.error(f"Failed to initialize Earth Engine: {e}")
+#try:
+    #ee.Authenticate(force=True)
+    #ee.Initialize(project='ee-johnslick1999')
+#except Exception as e:
+ #   st.error(f"Failed to initialize Earth Engine: {e}")
 
 # Streamlit app title
-st.title("🌾 Smart Crop Recommendation System")
+st.title("🌾 KoFarms Smart Crop Recommendation System")
 
 # Upload KML file
 uploaded_file = st.file_uploader("Upload your KML file", type=["kml"])
