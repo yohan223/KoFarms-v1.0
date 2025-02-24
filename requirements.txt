@@ -1,1 +1,14 @@
+streamlit
+streamlit_folium
+geopandas
 earthengine-api
+folium
+numpy
+pandas
+scikit-learn
+matplotlib
+rasterio
+shapely
+fiona
+pyproj
+rtree
