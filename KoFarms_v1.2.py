@@ -9,7 +9,6 @@ from streamlit_folium import st_folium
 from sklearn.ensemble import RandomForestClassifier
 
 # Authenticate Google Earth Engine
-ee.Authenticate()
 ee.Initialize(project='ee-johnslick1999')
 
 # Streamlit app title
